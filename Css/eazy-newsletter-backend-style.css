@@ -1,0 +1,54 @@
+#eazy_newsletter_settings_form {
+
+}
+
+#eazy-newsletter-addresses-wrapper {
+    width: 70%;
+}
+
+#eazy-newsletter-addresses-wrapper tr{
+    background: #ccc;
+    padding: 0px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 20px!important;
+}
+
+#eazy-newsletter-addresses-wrapper .mail-address{
+    width:25%;
+    height:auto;
+    margin:auto;
+}
+
+#eazy-newsletter-addresses-wrapper tr .mail-field{
+    width:15%;
+    height:auto;
+    margin:auto;
+}
+
+#eazy-newsletter-addresses-wrapper th{
+    text-align:center!Important;
+}
+
+#eazy-newsletter-addresses-wrapper td{
+    text-align:center!Important;
+}
+
+.delete-mail-link {
+    background: #960B00;
+    color: #fff!important;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+

@@ -1,0 +1,197 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Eazy Newsletter\n"
+"POT-Creation-Date: 2018-05-04 16:43+0200\n"
+"PO-Revision-Date: 2018-05-04 16:47+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: eazy_newsletter_function.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: Classes/EazyNewsletterPostType.php:109
+msgid "Veröffentlichen am:"
+msgstr "Publish on"
+
+#: Classes/EazyNewsletterPostType.php:128
+#: Classes/EazyNewsletterPostType.php:129
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: Classes/EmailAddress.php:135
+msgid "Klicken Sie auf folgenden Link um Ihre Eintragung im Newsletter auf "
+msgstr "Click on the following link"
+
+#: Classes/EmailAddress.php:137
+msgid " zu bestätigen: "
+msgstr "to confirm your entry in the newsletter"
+
+#: Classes/EmailAddress.php:140
+msgid "Bestätigen"
+msgstr "confirm"
+
+#: Classes/EmailAddress.php:162
+msgid "Bitte bestätigen Sie die Eintragung im Newsletter"
+msgstr "Please confirm the entry in the newsletter"
+
+#: Classes/SettingsPage.php:53
+msgid "Einstellungen"
+msgstr "Settings"
+
+#: Classes/SettingsPage.php:56
+msgid "Der Name von dem aus Newsletter versendet werden"
+msgstr "The name from which the newsletter will be sent"
+
+#: Classes/SettingsPage.php:60
+msgid "Die E-Mail Adresse von der aus Newsletter versendet werden"
+msgstr "The e-mail address from which newsletters are sent"
+
+#: Classes/SettingsPage.php:64
+#, fuzzy
+msgid "Newsletter im HTML-Format versenden ?"
+msgstr "Send the newsletter in HTML format?"
+
+#: Classes/SettingsPage.php:68
+msgid "Custom Wrapper für den Header des Newsletter"
+msgstr "Custom wrapper for the header of the newsletter"
+
+#: Classes/SettingsPage.php:72
+msgid "Custom Wrapper für den Body des Newsletter"
+msgstr "Custom wrapper for the body of the newsletter"
+
+#: Classes/SettingsPage.php:76
+msgid "Custom Wrapper für den Footer des Newsletter"
+msgstr "Custom wrapper for the footer of the newsletter"
+
+#: Classes/SettingsPage.php:80
+msgid ""
+"Sollen Newsletter automatisch zu einem bestimmten Datum versendet werden?"
+msgstr " sent automatically to a specific date?"
+
+#: Classes/SettingsPage.php:84
+msgid "Aktivierungsseite"
+msgstr "activation page"
+
+#: Classes/SettingsPage.php:88
+msgid "Zu welcher Uhrzeit sollen Newsletter versendet werden?"
+msgstr "At what time should the newsletter be sent?"
+
+#: Classes/SettingsPage.php:92
+msgid "Eingetragene Adressen:"
+msgstr "Registered addresses:"
+
+#: Classes/SettingsPage.php:297
+msgid "Addresse"
+msgstr "address"
+
+#: Classes/SettingsPage.php:298
+msgid "Aktiv"
+msgstr "active"
+
+#: Classes/SettingsPage.php:299
+msgid "Eingetragen am:"
+msgstr "Registered on:"
+
+#: Classes/SettingsPage.php:300
+msgid "Status"
+msgstr "status"
+
+#: Classes/SettingsPage.php:301 Classes/SettingsPage.php:319
+msgid "Fehler"
+msgstr "error"
+
+#: Classes/SettingsPage.php:309
+msgid "OK"
+msgstr ""
+
+#: Classes/SettingsPage.php:310
+msgid "Keine Fehler"
+msgstr "no errors"
+
+#: Classes/SettingsPage.php:313
+msgid "Ja"
+msgstr "yes"
+
+#: Classes/SettingsPage.php:315
+msgid "Nein"
+msgstr "no"
+
+#: Classes/SettingsPage.php:323
+msgid ""
+"Für diese E-Mail Addresse existiert kein MX-Record. Sie sollten diese E-Mail "
+"löschen wenn es zu Fehlermeldungen kommt!"
+msgstr ""
+"There is no MX record for this email address. You should delete this e-mail "
+"when it comes to error messages!"
+
+#: Classes/SettingsPage.php:325
+msgid "Bei der Eintragung dieser E-Mail Addresse ist es zu Fehlern gekommen."
+msgstr "When entering this e-mail address errors have occurred."
+
+#: Classes/SettingsPage.php:334
+msgid "Löschen"
+msgstr "delete"
+
+#: Classes/SettingsPage.php:346
+msgid "Eazy Newsletter konfigurieren"
+msgstr "Configure Eazy newsletter"
+
+#: Classes/SettingsPage.php:359
+msgid "Einstellungen speichern"
+msgstr "save settings"
+
+#: Classes/Shortcode.php:60
+msgid "Ihre E-Mail Adresse..."
+msgstr "Your email address..."
+
+#: Classes/Shortcode.php:61
+msgid "Eintragen"
+msgstr "Enter"
+
+#: View/eazy_newsletter_activation_page.php:72
+msgid "Sie haben Ihre Eintragung zum Newsletter erfolgreich bestätigt!"
+msgstr "You have successfully confirmed your entry to the newsletter!"
+
+#: View/eazy_newsletter_activation_page.php:76
+msgid "Ihr Aktivierungslink ist abgelaufen"
+msgstr "Your activation link has expired"
+
+#: View/eazy_newsletter_activation_page.php:77
+msgid "Tragen Sie sich bitte erneut ein!"
+msgstr "Please sign up again!"
+
+#. Plugin Name of the plugin/theme
+#, fuzzy
+msgid "Eazy Newsletter"
+msgstr "Newsletter"
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://alexweese.de/"
+msgstr ""
+
+#. Description of the plugin/theme
+#, fuzzy
+msgid "Newsletter Plugin. Send Newsletter by Publishing or WP-Cron Job"
+msgstr "Newsletter plugin. Send newsletter by publishing or WP-cron job"
+
+#. Author of the plugin/theme
+#, fuzzy
+msgid "Alexander Weese"
+msgstr "Alexander Weese"
+
+#, fuzzy
+#~ msgid "Your section description"
+#~ msgstr "Your section description"

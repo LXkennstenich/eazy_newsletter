@@ -1,0 +1,40 @@
+
+
+.eazy-newsletter-mail-two {
+    opacity:0;
+}
+
+.eazy-newsletter-register-form {
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    margin: 0 auto;
+}
+
+input[type="email"] {
+    -webkit-appearance: none!important;
+    -moz-appearance: none!important;
+    appearance: none!important;
+    -webkit-border-radius: 0!important;
+    border-radius: 0!important;
+    border: 0;
+}
+
+.eazy-newsletter-mail {
+    border-bottom: 2px solid !important;
+    margin-bottom: 20px;
+
+}
+
+.eazy-newsletter-submit-button {
+    width: 60%;
+    height: auto;
+    margin: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
