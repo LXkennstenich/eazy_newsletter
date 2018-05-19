@@ -7,24 +7,23 @@ if (!defined('ABSPATH')) {
 class EazyNewsletterStyles {
 
     /**
-     *
+     * Enthält die Daten aus der Datenbank
      * @var Settings
      */
     var $settings;
 
     /**
-     * 
+     * System-Objekt
+     * @var System
      */
-    function __construct() {
-        $this->setSettings(Settings::getInstance());
-    }
+    var $system;
 
     /**
-     * 
-     * @return Settings
+     * Konstruktor
      */
-    private function getSettings() {
-        return $this->settings;
+    function __construct() {
+        $this->setSystem(new System());
+        $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
@@ -37,22 +36,58 @@ class EazyNewsletterStyles {
 
     /**
      * 
+     * @return Settings
      */
-    public function enqueueStyles() {
-        add_action('wp_enqueue_scripts', array($this, 'eazy_newsletter_styles'), 90);
-        add_action('admin_enqueue_scripts', array($this, 'eazy_newsletter_backend_styles'));
+    private function getSettings() {
+        return $this->settings;
+    }
+
+    /**
+     * 
+     * @param System $system
+     */
+    private function setSystem($system) {
+        $this->system = $system;
+    }
+
+    /**
+     * 
+     * @return System
+     */
+    private function getSystem() {
+        return $this->system;
     }
 
     /**
      * 
      */
-    public static function removeStyles() {
-        if (wp_style_is('eazy-newsletter-frontend-style', 'enqueued')) {
-            wp_dequeue_style('eazy-newsletter-frontend-style');
+    public function enqueueStyles() {
+        try {
+            add_action('wp_enqueue_scripts', array($this, 'eazy_newsletter_styles'), 90);
+            add_action('admin_enqueue_scripts', array($this, 'eazy_newsletter_backend_styles'));
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
+    }
 
-        if (wp_style_is('eazy-newsletter-backend-style', 'enqueued')) {
-            wp_dequeue_style('eazy-newsletter-backend-style');
+    /**
+     * 
+     */
+    public function removeStyles() {
+        try {
+            if (wp_style_is('eazy-newsletter-frontend-style', 'enqueued')) {
+                wp_dequeue_style('eazy-newsletter-frontend-style');
+            }
+
+            if (wp_style_is('eazy-newsletter-backend-style', 'enqueued')) {
+                wp_dequeue_style('eazy-newsletter-backend-style');
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
@@ -60,8 +95,14 @@ class EazyNewsletterStyles {
      * 
      */
     public function eazy_newsletter_styles() {
-        if (!wp_style_is('eazy-newsletter-frontend-style', 'enqueued')) {
-            wp_enqueue_style('eazy-newsletter-frontend-style', System::eazyNewsletterStyleUrl('eazy-newsletter-frontend-style'));
+        try {
+            if (!wp_style_is('eazy-newsletter-frontend-style', 'enqueued')) {
+                wp_enqueue_style('eazy-newsletter-frontend-style', System::eazyNewsletterStyleUrl('eazy-newsletter-frontend-style.min'));
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
@@ -69,8 +110,14 @@ class EazyNewsletterStyles {
      * 
      */
     public function eazy_newsletter_backend_styles() {
-        if (!wp_style_is('eazy-newsletter-backend-style', 'enqueued')) {
-            wp_enqueue_style('eazy-newsletter-backend-style', System::eazyNewsletterStyleUrl('eazy-newsletter-backend-style'));
+        try {
+            if (!wp_style_is('eazy-newsletter-backend-style', 'enqueued')) {
+                wp_enqueue_style('eazy-newsletter-backend-style', System::eazyNewsletterStyleUrl('eazy-newsletter-backend-style.min'));
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 

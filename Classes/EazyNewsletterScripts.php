@@ -7,24 +7,23 @@ if (!defined('ABSPATH')) {
 class EazyNewsletterScripts {
 
     /**
-     *
+     * Enthält die Daten aus der Datenbank
      * @var Settings
      */
     var $settings;
 
     /**
-     * 
+     * System-Objekt
+     * @var System
      */
-    function __construct() {
-        $this->setSettings(Settings::getInstance());
-    }
+    var $system;
 
     /**
-     * 
-     * @return Settings
+     * Konstruktor
      */
-    private function getSettings() {
-        return $this->settings;
+    function __construct() {
+        $this->setSystem(new System());
+        $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
@@ -37,22 +36,58 @@ class EazyNewsletterScripts {
 
     /**
      * 
+     * @return Settings
      */
-    public function enqueueScripts() {
-        add_action('wp_enqueue_scripts', array($this, 'eazy_newsletter_scripts'), 90);
-        add_action('admin_enqueue_scripts', array($this, 'eazy_newsletter_backend_scripts'));
+    private function getSettings() {
+        return $this->settings;
+    }
+
+    /**
+     * 
+     * @param System $system
+     */
+    private function setSystem($system) {
+        $this->system = $system;
+    }
+
+    /**
+     * 
+     * @return System
+     */
+    private function getSystem() {
+        return $this->system;
     }
 
     /**
      * 
      */
-    public static function removeScripts() {
-        if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
-            wp_dequeue_script('eazy-newsletter-jquery-js');
+    public function enqueueScripts() {
+        try {
+            add_action('wp_enqueue_scripts', array($this, 'eazy_newsletter_scripts'), 90);
+            add_action('admin_enqueue_scripts', array($this, 'eazy_newsletter_backend_scripts'));
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
+    }
 
-        if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
-            wp_dequeue_script('eazy-newsletter-custom-js');
+    /**
+     * 
+     */
+    public function removeScripts() {
+        try {
+            if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
+                wp_dequeue_script('eazy-newsletter-jquery-js');
+            }
+
+            if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
+                wp_dequeue_script('eazy-newsletter-custom-js');
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
@@ -60,26 +95,38 @@ class EazyNewsletterScripts {
      * 
      */
     public function eazy_newsletter_scripts() {
-        if (!wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
-            wp_enqueue_script('eazy-newsletter-jquery-js', System::eazyNewsletterScriptUrl('jquery.min'));
-        }
+        try {
+            if (!wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
+                wp_enqueue_script('eazy-newsletter-jquery-js', System::eazyNewsletterScriptUrl('jquery.min'));
+            }
 
-        if (!wp_script_is('eazy-newsletter-custom-js', 'enqueued')) {
-            wp_enqueue_script('eazy-newsletter-custom-js', System::eazyNewsletterScriptUrl('eazy-newsletter-custom-js'));
-        }
+            if (!wp_script_is('eazy-newsletter-custom-js', 'enqueued')) {
+                wp_enqueue_script('eazy-newsletter-custom-js', System::eazyNewsletterScriptUrl('eazy-newsletter-custom-js.min'));
+            }
 
-        wp_localize_script('eazy-newsletter-custom-js', 'getAjaxUrl', array('ajaxurl' => admin_url('admin-ajax.php')));
+            wp_localize_script('eazy-newsletter-custom-js', 'getAjaxUrl', array('ajaxurl' => admin_url('admin-ajax.php')));
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
     /**
      * 
      */
     public function eazy_newsletter_backend_scripts() {
-        if (!wp_script_is('eazy-newsletter-backend', 'enqueued')) {
-            wp_enqueue_script('eazy-newsletter-backend', System::eazyNewsletterScriptUrl('eazy-newsletter-backend'));
-        }
+        try {
+            if (!wp_script_is('eazy-newsletter-backend', 'enqueued')) {
+                wp_enqueue_script('eazy-newsletter-backend', System::eazyNewsletterScriptUrl('eazy-newsletter-backend.min'));
+            }
 
-        wp_localize_script('eazy-newsletter-backend', 'getAjaxUrl', array('ajaxurl' => admin_url('admin-ajax.php')));
+            wp_localize_script('eazy-newsletter-backend', 'getAjaxUrl', array('ajaxurl' => admin_url('admin-ajax.php')));
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
 }

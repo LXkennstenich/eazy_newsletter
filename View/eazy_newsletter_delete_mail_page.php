@@ -13,13 +13,12 @@ if (!defined('ABSPATH')) {
 
 try {
     $settings = Settings::getUpdatetInstance();
-    $activation = false;
-    $overTime = false;
-    $validation = false;
     $action = null;
     $token = null;
     $address = null;
-
+    $mailDeleted = false;
+    $newArray = array();
+    $unsubscribed = false;
 
     if (isset($_GET['a']) && isset($_GET['tk']) && isset($_GET['u'])) {
         $action = filter_var($_GET['a'], FILTER_SANITIZE_STRING);
@@ -27,27 +26,17 @@ try {
         $address = filter_var($_GET['u'], FILTER_SANITIZE_STRING);
     }
 
-    $addressesArray = $settings->getEazyNewsletterAddresses();
-    $newArray = array();
-
     get_header();
 
+    if ($action === 'delete') {
 
-    if ($action === 'activate') {
-
-        $maxTimeStamp = current_time('timestamp') + 86400;
+        $addressesArray = $settings->getEazyNewsletterAddresses();
 
         if (sizeof($addressesArray) > 0) {
             foreach ($addressesArray as $singleAddress) {
                 if ($singleAddress->getAddress() === $address) {
-                    if ($singleAddress->getTimestamp() <= $maxTimeStamp) {
-                        if ($singleAddress->getToken() === $token && $singleAddress->isActive() == false) {
-                            $singleAddress->setToken(bin2hex(openssl_random_pseudo_bytes(64)));
-                            $singleAddress->setActive(true);
-                            $validation = true;
-                        }
-                    } else {
-                        $overTime = true;
+                    if ($singleAddress->getToken() === $token && $singleAddress->isActive()) {
+                        $mailDeleted = true;
                         continue;
                     }
                 }
@@ -56,12 +45,14 @@ try {
             }
 
             $settings->setEazyNewsletterAddresses($newArray);
+            $settingsUpdated = $settings->updateSettings();
+            $settings = Settings::getUpdatetInstance();
+            $arrayChanged = $settings->getEazyNewsletterAddresses() == $addressesArray ? false : true;
 
-            if ($validation) {
-                $activation = true;
+
+            if ($settingsUpdated && $arrayChanged && $mailDeleted) {
+                $unsubscribed = true;
             }
-
-            $settings->updateSettings();
         }
     }
 } catch (Exception $ex) {
@@ -71,14 +62,13 @@ try {
 }
 ?>
 
-<?php if ($activation === true) { ?>
+<?php if ($unsubscribed === true) { ?>
     <div class="eazy-newsletter-activation-message">
-        <p><?php echo __('Sie haben Ihre Eintragung zum Newsletter erfolgreich bestätigt!', 'eazy_newsletter'); ?></p>
+        <p><?php echo __('Sie haben sich erfolgreich aus unserem Newsletter ausgetragen', 'eazy_newsletter'); ?></p>
     </div>
-<?php } else if ($overTime === true) { ?>
+<?php } else { ?>
     <div class="eazy-newsletter-activation-message">
-        <p><?php echo __('Ihr Aktivierungslink ist abgelaufen', 'eazy_newsletter'); ?></p>
-        <p><?php echo __('Tragen Sie sich bitte erneut ein!', 'eazy_newsletter'); ?></p>
+        <p><?php echo __('Ihre E-Mail Adresse konnte nicht gelöscht werden', 'eazy_newsletter'); ?></p>
     </div>
 <?php } ?>
 

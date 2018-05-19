@@ -56,13 +56,13 @@ jQuery(document).ready(function ($) {
                 footer: document.getElementById('eazy_newsletter_custom_html_footer').value,
                 automatic: automaticvalue,
                 activationPageID: document.getElementById('eazy_newsletter_activation_page_id').value,
+                deleteMailPageID: document.getElementById('eazy_newsletter_delete_mail_page_id').value,
                 sendTime: document.getElementById('eazy_newsletter_send_time').value
             },
             'url': getAjaxUrl.ajaxurl,
             'success': function (response) {
                 $('.ajax-message .text').text(response);
                 setTimeout(1000);
-                //document.location.reload();
             },
             error: function (jqXHR, exception) {
                 $('.ajax-message .text').text(jqXHR + exception);

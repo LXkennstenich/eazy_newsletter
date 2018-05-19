@@ -8,9 +8,18 @@
     max-width: 100%;
     height: auto;
     overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column;
     flex-flow: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     width: auto;
     margin: 0 auto;
@@ -20,7 +29,6 @@ input[type="email"] {
     -webkit-appearance: none!important;
     -moz-appearance: none!important;
     appearance: none!important;
-    -webkit-border-radius: 0!important;
     border-radius: 0!important;
     border: 0;
 }

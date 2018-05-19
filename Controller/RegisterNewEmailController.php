@@ -1,46 +1,46 @@
 <?php
 
-spl_autoload_register(function($class) {
-    include EAZYROOTDIR . 'Classes/' . $class . '.php';
-});
 /* @var $isAjax bool */
 /* @var $singleAddress EmailAddress */
 /* @var $settings Settings */
 /* @var $system System */
 
+spl_autoload_register(function($class) {
+    include EAZYROOTDIR . 'Classes/' . $class . '.php';
+});
+
+
 if ($isAjax) {
     try {
-        $settings = Settings::getUpdatetInstance();
-        $time = filter_var($_POST['time'], FILTER_DEFAULT);
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? $_POST['email'] : null;
         $email2 = filter_var($_POST['email2'], FILTER_SANITIZE_STRING);
         $email3 = filter_var($_POST['email3'], FILTER_SANITIZE_STRING);
 
-        $currentTime = current_time('timestamp');
-        $totalTime = $currentTime - $time;
+        $timeSend = new DateTime(date('H:i:s', $_POST['time']));
+        $timeRequested = new DateTime(date('H:i:s', current_time('timestamp')));
 
+        $interval = $timeSend->diff($timeRequested);
 
-        if ($totalTime < 1 || $totalTime > 1800) {
-            wp_die('Ihre E-Mail Addresse konnte nicht eingetragen werden! Bitte laden Sie die Seite neu!');
+        $timeInSeconds = intval($interval->format('%s'));
+
+        if ($timeInSeconds < 1 || $timeInSeconds > 300) {
+            wp_die(__('Ihre E-Mail Addresse konnte nicht eingetragen werden! Bitte laden Sie die Seite neu!', 'eazy_newsletter'));
         }
 
         if ($email2 !== '' || $email3 !== '') {
-            wp_die('Ihre E-Mail Addresse konnte nicht eingetragen werden!');
+            wp_die(__('Ihre E-Mail Addresse konnte nicht eingetragen werden!', 'eazy_newsletter'));
         }
 
         $duplicate = false;
-        $eMail = $email;
-        $arrayAddress = explode('@', $eMail);
-        $serverAddress = array_pop($arrayAddress);
 
-        if (!checkdnsrr($serverAddress, 'MX')) {
-            $arrayAddresses = $settings->getEazyNewsletterAddresses();
+        if ($system->mailExists($email)) {
+            $arrayAddresses = $system->getSettings()->getEazyNewsletterAddresses();
 
             if (sizeof($arrayAddresses) > 0) {
                 foreach ($arrayAddresses as $singleAddress) {
                     if ($singleAddress->getAddress() === $email) {
                         $duplicate = true;
-                        echo 'Diese E-Mail wurde bereits eingetragen!';
+                        echo __('Diese E-Mail wurde bereits eingetragen!', 'eazy_newsletter');
                     }
                 }
             }
@@ -48,20 +48,22 @@ if ($isAjax) {
             if ($duplicate === false) {
                 $mail = new EmailAddress(false, $email, bin2hex(openssl_random_pseudo_bytes(64)), current_time('timestamp'));
                 $arrayAddresses[] = $mail;
-                $settings->setEazyNewsletterAddresses($arrayAddresses);
+                $system->getSettings()->setEazyNewsletterAddresses($arrayAddresses);
 
-                if ($settings->updateOption('eazy_newsletter_addresses', $arrayAddresses)) {
+                if ($system->getSettings()->updateOption('eazy_newsletter_addresses', $arrayAddresses)) {
                     if ($mail->sendValidationMail()) {
-                        echo 'Sie haben sich erfolgreich eingetragen!';
+                        echo __('Sie haben sich erfolgreich eingetragen!', 'eazy_newsletter');
                     }
                 } else {
-                    echo 'Ihre E-Mail Adresse konnte nicht eingetragen werden. Bitte versuchen Sie es erneut!';
+                    echo __('Ihre E-Mail Adresse konnte nicht eingetragen werden. Bitte versuchen Sie es erneut!', 'eazy_newsletter');
                 }
             }
         } else {
-            echo 'Bitte eine gültige E-Mail Adresse eintragen!';
+            echo __('Bitte eine gültige E-Mail Adresse eintragen!', 'eazy_newsletter');
         }
     } catch (Exception $ex) {
-        echo $ex->getMessage();
+        if (EAZYLOGDATA) {
+            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+        }
     }
 }

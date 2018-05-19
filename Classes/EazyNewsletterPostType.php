@@ -6,16 +6,23 @@ if (!defined('ABSPATH')) {
 class EazyNewsletterPostType {
 
     /**
-     *
+     * Enthält die Daten aus der Datenbank
      * @var Settings
      */
     var $settings;
 
     /**
-     * 
+     * System-Objekt
+     * @var System
+     */
+    var $system;
+
+    /**
+     * Konstruktor
      */
     function __construct() {
-        $this->setSettings(Settings::getInstance());
+        $this->setSystem(new System());
+        $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
@@ -36,11 +43,33 @@ class EazyNewsletterPostType {
 
     /**
      * 
+     * @param System $system
+     */
+    private function setSystem($system) {
+        $this->system = $system;
+    }
+
+    /**
+     * 
+     * @return System
+     */
+    private function getSystem() {
+        return $this->system;
+    }
+
+    /**
+     * 
      */
     public function createPostType() {
-        add_action('init', array($this, 'eazy_newsletter_post_type'));
-        add_action('add_meta_boxes', array($this, 'addMetaBox'));
-        add_action('save_post', array($this, 'save'));
+        try {
+            add_action('init', array($this, 'eazy_newsletter_post_type'));
+            add_action('add_meta_boxes', array($this, 'addMetaBox'));
+            add_action('save_post', array($this, 'save'));
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
     /**
@@ -53,67 +82,49 @@ class EazyNewsletterPostType {
 
     /**
      * 
-     * @param type $post_id
-     * @return type
+     * @param int $postID
+     * @return 
      */
-    public function save($post_id) {
+    public function save($postID) {
+        try {
+            /* PostType aus der Datenbank holen */
+            $postType = get_post_type($postID);
 
-        $postType = get_post_type($post_id);
+            /* PostType nicht Eazy Newsletter ? Ende! */
+            if ($postType != 'eazy_newsletter') {
+                return;
+            }
 
-        if ($postType != 'eazy_newsletter') {
-            return;
-        }
+            /* Ohne Publish Date geht nix */
+            if (array_key_exists('eazy_newsletter_publish_date', $_POST)) {
 
-        $post = get_post($post_id);
+                $publishTimeStamp = strtotime($_POST['eazy_newsletter_publish_date']);
+                /* Publish-Date in Post-Meta speichern */
+                update_post_meta($postID, 'eazy_newsletter_publish_date', current_time($publishTimeStamp));
 
-        if (array_key_exists('eazy_newsletter_publish_date', $_POST)) {
+                $hasBeenSend = get_post_meta($postID, 'eazy_newsletter_is_send', true) == 1 ? true : false;
 
-            $date = strtotime($_POST['eazy_newsletter_publish_date']);
-            update_post_meta($post_id, 'eazy_newsletter_publish_date', $date);
-            update_post_meta($post_id, 'eazy_newsletter_is_send', 0);
-            $publishDate = date('Y-m-d', get_post_meta($post_id, 'eazy_newsletter_publish_date', true));
-            $today = date('Y-m-d', current_time('timestamp'));
-            $now = new DateTime(date('H:i', current_time('timestamp')));
-            $sendTime = $this->getSettings()->getEazyNewsletterSendTime();
-            $publishTime = DateTime::createFromFormat('H:i', $sendTime);
-            $interval = $publishTime->diff($now);
-            $timedifference = intval($interval->format("%i"));
-
-            if ($publishDate === $today && ($timedifference < 30 || $timedifference < -30)) {
-                System::debugLog('true');
-
-                if (sizeof($this->getSettings()->getEazyNewsletterAddresses()) > 0) {
-                    $addresses = $this->getSettings()->getEazyNewsletterAddresses();
-
-                    $title = $post->post_title;
-                    $content = $post->post_content;
-
-                    $headers = array();
-                    $headers[] = 'From: "' . $this->getSettings()->getEazyNewsletterName() . '"' . '<' . $this->getSettings()->getEazyNewsletterMail() . '>';
-
-                    if ($this->getSettings()->getEazyNewsletterHtml() === true) {
-                        $headers[] = 'Content-Type: text/html';
-                    } else {
-                        $headers[] = 'Content-Type: text/plain';
-                    }
-
-
-                    $i = 0;
-
-
-                    /* @var $singleAddress EmailAddress */
-                    foreach ($addresses as $singleAddress) {
-                        if ($singleAddress->isActive()) {
-                            if (wp_mail($singleAddress->getAddress(), $title, $content, $headers)) {
-                                $i++;
-                            }
-                        }
-                    }
-
-                    if ($i > 0) {
-                        update_post_meta($post_id, 'eazy_newsletter_is_send', 1);
-                    }
+                if (!$hasBeenSend) {
+                    /* Publish-Date in Post-Meta speichern */
+                    update_post_meta($postID, 'eazy_newsletter_is_send', 0);
+                } else {
+                    return;
                 }
+
+                /*
+                 * Wenn das Sende-Datum mit dem heutigen Datum übereinstimmt und die momentane 
+                 * Zeit +/- 5 minuten von der eingestellten Sendezeit beträgt kann der Newsletter versendet werden 
+                 */
+
+                if ($this->getSystem()->isNewsletterSend($postID) === true || $this->getSystem()->timeToSendNewsletter($postID) !== true || $this->getSettings()->hasAddresses() === false) {
+                    return;
+                }
+
+                $this->getSystem()->sendSingleNewsletter($postID);
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -123,10 +134,16 @@ class EazyNewsletterPostType {
      * @param type $post
      */
     public function metaboxContent($post) {
-        $value = get_post_meta($post->ID, 'eazy_newsletter_publish_date', true);
+        $publishDate = strtotime(get_post_meta($post->ID, 'eazy_newsletter_publish_date', true));
+
+        if ($publishDate == '') {
+            $publishDate = current_time('timestamp');
+        }
+
+        $value = date('Y-m-d', intval($publishDate));
         ?>
-        <label for="eazy-newsletter-publish-date"><?php echo __('Veröffentlichen am:', 'eazy_newsletter'); ?></label>
-        <input type="date" name="eazy_newsletter_publish_date" id="eazy-newsletter-publish-date" class="eazy-newsletter-publish-date" value="<?php echo date('Y-m-d', intval($value)); ?>">
+        <label for="eazy-newsletter-publish-date"><?php var_dump($publishDate); ?></label>
+        <input type="date" name="eazy_newsletter_publish_date" id="eazy-newsletter-publish-date" class="eazy-newsletter-publish-date" value="<?php echo current_time($value); ?>">
         <?php
     }
 
@@ -134,15 +151,27 @@ class EazyNewsletterPostType {
      * 
      */
     public function addMetaBox() {
-        add_meta_box('eazy_newsletter_date_metabox', 'Veröffentlichungsdatum', array($this, 'metaboxContent'), 'eazy_newsletter');
+        try {
+            add_meta_box('eazy_newsletter_date_metabox', 'Veröffentlichungsdatum', array($this, 'metaboxContent'), 'eazy_newsletter');
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
     /**
      * 
      */
-    public static function removePostType() {
-        if (post_type_exists('eazy_newsletter')) {
-            unregister_post_type('eazy_newsletter');
+    public function removePostType() {
+        try {
+            if (post_type_exists('eazy_newsletter')) {
+                unregister_post_type('eazy_newsletter');
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
@@ -150,17 +179,23 @@ class EazyNewsletterPostType {
      * 
      */
     public function eazy_newsletter_post_type() {
-        if (!post_type_exists('eazy_newsletter')) {
-            register_post_type('eazy_newsletter', array(
-                'labels' => array(
-                    'name' => __('Newsletter'),
-                    'singular_name' => __('Newsletter')
-                ),
-                'public' => false,
-                'has_archive' => false,
-                'show_ui' => true
-                    )
-            );
+        try {
+            if (!post_type_exists('eazy_newsletter')) {
+                register_post_type('eazy_newsletter', array(
+                    'labels' => array(
+                        'name' => __('Newsletter'),
+                        'singular_name' => __('Newsletter')
+                    ),
+                    'public' => false,
+                    'has_archive' => false,
+                    'show_ui' => true
+                        )
+                );
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 

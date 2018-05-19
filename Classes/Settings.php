@@ -70,11 +70,32 @@ class Settings {
     protected $eazyNewsletterActivationPageID;
 
     /**
+     * Seiten-ID der Austragungsseite
+     * @var int
+     */
+    protected $eazyNewsletterDeleteMailPageID;
+
+    /**
      * Zeit an der Newsletter versendet werden sollen
      * @var string 
      */
     protected $eazyNewsletterSendTime;
 
+    /**
+     *
+     * @var type 
+     */
+    protected $lastCronAction;
+
+    /**
+     *
+     * @var type 
+     */
+    protected $eazyNewsletterLogData;
+
+    /**
+     * 
+     */
     function __construct() {
 
         if ($this->tableExists()) {
@@ -88,9 +109,16 @@ class Settings {
             $this->setEazyNewsletterAddresses($this->getOption('eazy_newsletter_addresses'));
             $this->setEazyNewsletterActivationPageID($this->getOption('eazy_newsletter_activation_page_id'));
             $this->setEazyNewsletterSendTime($this->getOption('eazy_newsletter_send_time'));
+            $this->setEazyNewsletterLastCronAction($this->getOption('eazy_newsletter_last_cron_action'));
+            $this->setEazyNewsletterDeleteMailPageID($this->getOption('eazy_newsletter_delete_mail_page_id'));
+            $this->setEazyNewsletterLogData(boolval($this->getOption('eazy_newsletter_log_data')));
         }
     }
 
+    /**
+     * 
+     * @return type
+     */
     public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new Settings();
@@ -99,80 +127,180 @@ class Settings {
         return self::$instance;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public static function getUpdatetInstance() {
         self::$instance = new Settings();
 
         return self::$instance;
     }
 
+    /**
+     * 
+     * @param type $lastCronAction
+     */
+    public function setEazyNewsletterLastCronAction($lastCronAction) {
+        $this->lastCronAction = $lastCronAction;
+    }
+
+    /**
+     * 
+     * @param type $sendTime
+     */
     public function setEazyNewsletterSendTime($sendTime) {
         $this->eazyNewsletterSendTime = $sendTime;
     }
 
+    /**
+     * 
+     * @param type $name
+     */
     public function setEazyNewsletterName($name) {
         $this->eazyNewsletterName = $name;
     }
 
+    /**
+     * 
+     * @param type $mail
+     */
     public function setEazyNewsletterMail($mail) {
         $this->eazyNewsletterMail = $mail;
     }
 
+    /**
+     * 
+     * @param type $html
+     */
     public function setEazyNewsletterHtml($html) {
         $this->eazyNewsletterHtml = boolval($html);
     }
 
+    /**
+     * 
+     * @param type $header
+     */
     public function setEazyNewsletterCustomHtmlHeader($header) {
         $this->eazyNewsletterCustomHtmlHeader = $header;
     }
 
+    /**
+     * 
+     * @param type $body
+     */
     public function setEazyNewsletterCustomHtmlBody($body) {
         $this->eazyNewsletterCustomHtmlBody = $body;
     }
 
+    /**
+     * 
+     * @param type $footer
+     */
     public function setEazyNewsletterCustomHtmlFooter($footer) {
         $this->eazyNewsletterCustomHtmlFooter = $footer;
     }
 
+    /**
+     * 
+     * @param type $automatic
+     */
     public function setEazyNewsletterAutomatic($automatic) {
         $this->eazyNewsletterAutomatic = boolval($automatic);
     }
 
+    /**
+     * 
+     * @param type $addresses
+     */
     public function setEazyNewsletterAddresses($addresses) {
         $this->eazyNewsletterAddresses = $addresses;
     }
 
+    /**
+     * 
+     * @param type $send
+     */
     public function setEazyNewsletterSend($send) {
         $this->eazyNewsletterSend = $send;
     }
 
+    /**
+     * 
+     * @param type $pageID
+     */
+    public function setEazyNewsletterDeleteMailPageID($pageID) {
+        $this->eazyNewsletterDeleteMailPageID = $pageID;
+    }
+
+    /**
+     * 
+     * @param type $pageID
+     */
     public function setEazyNewsletterActivationPageID($pageID) {
         $this->eazyNewsletterActivationPageID = $pageID;
     }
 
+    /**
+     * 
+     * @return type
+     */
+    public function getEazyNewsletterLastCronAction() {
+        return $this->lastCronAction;
+    }
+
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterSendTime() {
         return $this->eazyNewsletterSendTime;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterName() {
         return $this->eazyNewsletterName;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterMail() {
         return $this->eazyNewsletterMail;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterHtml() {
         return boolval($this->eazyNewsletterHtml);
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterCustomHtmlHeader() {
         return $this->eazyNewsletterCustomHtmlHeader;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterCustomHtmlBody() {
         return $this->eazyNewsletterCustomHtmlBody;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getEazyNewsletterCustomHtmlFooter() {
         return $this->eazyNewsletterCustomHtmlFooter;
     }
@@ -197,166 +325,229 @@ class Settings {
         return $this->eazyNewsletterActivationPageID;
     }
 
+    public function getEazyNewsletterDeleteMailPageID() {
+        return $this->eazyNewsletterDeleteMailPageID;
+    }
+
+    public function getEazyNewsletterLogData() {
+        return boolval($this->eazyNewsletterLogData);
+    }
+
+    public function hasAddresses() {
+        return $hasAddresses = sizeof($this->getEazyNewsletterAddresses()) > 0 ? true : false;
+    }
+
     public function createSettings() {
-        $this->setEazyNewsletterName('eazy newsletter plugin');
-        $this->setEazyNewsletterMail('noreply@not-existing.com');
-        $this->setEazyNewsletterHtml(false);
-        $this->setEazyNewsletterCustomHtmlHeader('');
-        $this->setEazyNewsletterCustomHtmlBody('');
-        $this->setEazyNewsletterCustomHtmlFooter('');
-        $this->setEazyNewsletterAutomatic(false);
-        $this->setEazyNewsletterAddresses(array());
-        $this->setEazyNewsletterActivationPageID(0);
-        $this->setEazyNewsletterSendTime('12:00');
-        $this->insertSettings();
+        try {
+            $this->setEazyNewsletterName('eazy newsletter plugin');
+            $this->setEazyNewsletterMail('noreply@not-existing.com');
+            $this->setEazyNewsletterHtml(false);
+            $this->setEazyNewsletterCustomHtmlHeader('');
+            $this->setEazyNewsletterCustomHtmlBody('');
+            $this->setEazyNewsletterCustomHtmlFooter('');
+            $this->setEazyNewsletterAutomatic(false);
+            $this->setEazyNewsletterAddresses(array());
+            $this->setEazyNewsletterActivationPageID(0);
+            $this->setEazyNewsletterSendTime('12:00');
+            $this->setEazyNewsletterLastCronAction(NULL);
+            $this->setEazyNewsletterDeleteMailPageID(0);
+            $this->insertSettings();
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
     private function insertSettings() {
-        /* @var $wpdb wpdb */
-        global $wpdb;
-        $tableName = $wpdb->prefix . static::$tableName;
+        try {
+            /* @var $wpdb wpdb */
+            global $wpdb;
+            $tableName = $wpdb->prefix . static::$tableName;
 
 
-        $settings = array(
-            'eazy_newsletter_name' => $this->getEazyNewsletterName(),
-            'eazy_newsletter_mail' => $this->getEazyNewsletterMail(),
-            'eazy_newsletter_html' => $this->getEazyNewsletterHtml(),
-            'eazy_newsletter_custom_html_header' => $this->getEazyNewsletterCustomHtmlHeader(),
-            'eazy_newsletter_custom_html_body' => $this->getEazyNewsletterCustomHtmlBody(),
-            'eazy_newsletter_custom_html_footer' => $this->getEazyNewsletterCustomHtmlFooter(),
-            'eazy_newsletter_automatic' => $this->getEazyNewsletterAutomatic(),
-            'eazy_newsletter_addresses' => serialize($this->getEazyNewsletterAddresses()),
-            'eazy_newsletter_activation_page_id' => $this->getEazyNewsletterActivationPageID(),
-            'eazy_newsletter_send_time' => $this->getEazyNewsletterSendTime()
-        );
+            $settings = array(
+                'eazy_newsletter_name' => $this->getEazyNewsletterName(),
+                'eazy_newsletter_mail' => $this->getEazyNewsletterMail(),
+                'eazy_newsletter_html' => $this->getEazyNewsletterHtml(),
+                'eazy_newsletter_custom_html_header' => $this->getEazyNewsletterCustomHtmlHeader(),
+                'eazy_newsletter_custom_html_body' => $this->getEazyNewsletterCustomHtmlBody(),
+                'eazy_newsletter_custom_html_footer' => $this->getEazyNewsletterCustomHtmlFooter(),
+                'eazy_newsletter_automatic' => $this->getEazyNewsletterAutomatic(),
+                'eazy_newsletter_addresses' => serialize($this->getEazyNewsletterAddresses()),
+                'eazy_newsletter_activation_page_id' => $this->getEazyNewsletterActivationPageID(),
+                'eazy_newsletter_send_time' => $this->getEazyNewsletterSendTime(),
+                'eazy_newsletter_last_cron_action' => $this->getEazyNewsletterLastCronAction(),
+                'eazy_newsletter_delete_mail_page_id' => $this->getEazyNewsletterDeleteMailPageID()
+            );
 
-        $wpdb->insert($tableName, $settings);
+            $wpdb->insert($tableName, $settings);
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
+        }
     }
 
     public function updateSettings() {
+        try {
+            $i = 0;
 
-        $i = 0;
+            if ($this->updateOption('eazy_newsletter_name', $this->getEazyNewsletterName())) {
+                $i++;
+            }
 
-        if ($this->updateOption('eazy_newsletter_name', $this->getEazyNewsletterName())) {
-            $i++;
+            if ($this->updateOption('eazy_newsletter_mail', $this->getEazyNewsletterMail())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_html', $this->getEazyNewsletterHtml())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_custom_html_header', $this->getEazyNewsletterCustomHtmlHeader())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_custom_html_body', $this->getEazyNewsletterCustomHtmlBody())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_custom_html_footer', $this->getEazyNewsletterCustomHtmlFooter())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_automatic', $this->getEazyNewsletterAutomatic())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_addresses', $this->getEazyNewsletterAddresses())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_activation_page_id', $this->getEazyNewsletterActivationPageID())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_send_time', $this->getEazyNewsletterSendTime())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_last_cron_action', $this->getEazyNewsletterLastCronAction())) {
+                $i++;
+            }
+
+            if ($this->updateOption('eazy_newsletter_delete_mail_page_id', $this->getEazyNewsletterDeleteMailPageID())) {
+                $i++;
+            }
+
+            return $i !== 12 ? false : true;
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
-
-        if ($this->updateOption('eazy_newsletter_mail', $this->getEazyNewsletterMail())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_html', $this->getEazyNewsletterHtml())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_custom_html_header', $this->getEazyNewsletterCustomHtmlHeader())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_custom_html_body', $this->getEazyNewsletterCustomHtmlBody())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_custom_html_footer', $this->getEazyNewsletterCustomHtmlFooter())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_automatic', $this->getEazyNewsletterAutomatic())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_addresses', $this->getEazyNewsletterAddresses())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_activation_page_id', $this->getEazyNewsletterActivationPageID())) {
-            $i++;
-        }
-
-        if ($this->updateOption('eazy_newsletter_send_time', $this->getEazyNewsletterSendTime())) {
-            $i++;
-        }
-
-        return $i !== 10 ? false : true;
     }
 
     public function updateOption($optionName, $value) {
-        /* @var $wpdb wpdb */
-        global $wpdb;
-        $tableName = $wpdb->prefix . static::$tableName;
-        $optionValue = '';
+        try {
+            /* @var $wpdb wpdb */
+            global $wpdb;
+            $tableName = $wpdb->prefix . static::$tableName;
+            $optionValue = '';
 
-        $logValue = is_array($value) ? serialize($value) : $value;
+            switch ($optionName) {
+                case 'eazy_newsletter_name':
+                    $optionValue = filter_var($value, FILTER_SANITIZE_STRING) ? htmlspecialchars(strip_tags($value)) : ' ';
+                    break;
+                case 'eazy_newsletter_mail':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_EMAIL) ? $value : '';
+                    break;
+                case 'eazy_newsletter_html':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
+                    break;
+                case 'eazy_newsletter_custom_html_header':
+                    $optionValue = stripslashes(wp_filter_post_kses(addslashes($value)));
+                    break;
+                case 'eazy_newsletter_custom_html_body':
+                    $optionValue = stripslashes(wp_filter_post_kses(addslashes($value)));
+                    break;
+                case 'eazy_newsletter_custom_html_footer':
+                    $optionValue = stripslashes(wp_filter_post_kses(addslashes($value)));
+                    break;
+                case 'eazy_newsletter_automatic':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
+                    break;
+                case 'eazy_newsletter_addresses':
+                    $optionValue = serialize($value);
+                    break;
+                case 'eazy_newsletter_activation_page_id':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
+                    break;
+                case 'eazy_newsletter_send_time':
+                    $optionValue = $value;
+                    break;
+                case 'eazy_newsletter_last_cron_action':
+                    $optionValue = filter_var($value, FILTER_SANITIZE_STRING) ? $value : null;
+                    break;
+                case 'eazy_newsletter_delete_mail_page_id':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
+                    break;
+            }
 
-        System::debugLog('Update Option: Name: ' . $optionName . ' Value: ' . $logValue);
+            $settingsID = static::$settingsID;
 
-        switch ($optionName) {
-            case 'eazy_newsletter_name':
-                $optionValue = filter_var($value, FILTER_SANITIZE_STRING) ? htmlspecialchars(strip_tags($value)) : '';
-                break;
-            case 'eazy_newsletter_mail':
-                $optionValue = filter_var($value, FILTER_VALIDATE_EMAIL) ? $value : '';
-                break;
-            case 'eazy_newsletter_html':
-                $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
-                break;
-            case 'eazy_newsletter_custom_html_header':
-                $optionValue = filter_var($value, FILTER_DEFAULT) ? $value : '';
-                break;
-            case 'eazy_newsletter_custom_html_body':
-                $optionValue = filter_var($value, FILTER_DEFAULT) ? $value : '';
-                break;
-            case 'eazy_newsletter_custom_html_footer':
-                $optionValue = filter_var($value, FILTER_DEFAULT) ? $value : '';
-                break;
-            case 'eazy_newsletter_automatic':
-                $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
-                break;
-            case 'eazy_newsletter_addresses':
-                $optionValue = serialize($value);
-                break;
-            case 'eazy_newsletter_activation_page_id':
-                $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
-                break;
-            case 'eazy_newsletter_send_time':
-                $optionValue = $value;
-                break;
+            if ($wpdb->update($tableName, array($optionName => $optionValue), array('Id' => $settingsID)) !== false) {
+                return true;
+            }
+
+            return false;
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
-
-        $settingsID = static::$settingsID;
-
-        if ($wpdb->update($tableName, array($optionName => $optionValue), array('Id' => $settingsID)) !== false) {
-            return true;
-        }
-
-        return false;
     }
 
     public function getOption($optionName) {
-        /* @var $wpdb wpdb */
-        global $wpdb;
-        $tableName = $wpdb->prefix . static::$tableName;
+        try {
+            /* @var $wpdb wpdb */
+            global $wpdb;
+            $tableName = $wpdb->prefix . static::$tableName;
+            $option = esc_sql($optionName);
 
-        $sql = 'SELECT ' . $optionName . ' FROM ' . $tableName;
 
-        if ($optionName !== 'eazy_newsletter_addresses') {
-            $value = $wpdb->get_var($sql);
-        } else {
-            $value = unserialize($wpdb->get_var($sql));
+            $sql = 'SELECT ' . $option . ' FROM ' . $tableName;
+
+            if ($optionName !== 'eazy_newsletter_addresses') {
+                $value = $wpdb->get_var($sql);
+            } else {
+                $value = unserialize($wpdb->get_var($sql));
+            }
+
+            return $value;
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
-
-        return $value;
     }
 
     private function tableExists() {
-        global $wpdb;
+        try {
+            global $wpdb;
 
-        $tableName = $wpdb->prefix . static::$tableName;
+            $tableName = $wpdb->prefix . static::$tableName;
 
-        if ($wpdb->get_var("SHOW TABLES LIKE '$tableName'") != $tableName) {
-            return false;
-        } else {
-            return true;
+            if ($wpdb->get_var("SHOW TABLES LIKE '$tableName'") != $tableName) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 

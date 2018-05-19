@@ -1,13 +1,14 @@
 <?php
 
-spl_autoload_register(function($class) {
-    include EAZYROOTDIR . 'Classes/' . $class . '.php';
-});
-
 /* @var $isAjax bool */
 /* @var $singleAddress EmailAddress */
 /* @var $settings Settings */
 /* @var $system System */
+
+spl_autoload_register(function($class) {
+    include EAZYROOTDIR . 'Classes/' . $class . '.php';
+});
+
 
 if ($isAjax) {
     try {
@@ -15,29 +16,33 @@ if ($isAjax) {
         $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
         $mail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         $html = filter_var($_POST['html'], FILTER_VALIDATE_INT);
-        $header = filter_var($_POST['header'], FILTER_DEFAULT);
-        $body = filter_var($_POST['body'], FILTER_DEFAULT);
-        $footer = filter_var($_POST['footer'], FILTER_DEFAULT);
+        $header = $_POST['header'];
+        $body = $_POST['body'];
+        $footer = $_POST['footer'];
         $automatic = filter_var($_POST['automatic'], FILTER_VALIDATE_INT);
         $pageID = filter_var($_POST['activationPageID'], FILTER_VALIDATE_INT);
+        $deleteMailPageID = filter_var($_POST['deleteMailPageID'], FILTER_VALIDATE_INT);
         $sendTime = filter_var($_POST['sendTime'], FILTER_SANITIZE_STRING);
 
-        $settings->setEazyNewsletterName($name);
-        $settings->setEazyNewsletterMail($mail);
-        $settings->setEazyNewsletterHtml($html);
-        $settings->setEazyNewsletterCustomHtmlHeader($header);
-        $settings->setEazyNewsletterCustomHtmlBody($body);
-        $settings->setEazyNewsletterCustomHtmlFooter($footer);
-        $settings->setEazyNewsletterAutomatic($automatic);
-        $settings->setEazyNewsletterActivationPageID($pageID);
-        $settings->setEazyNewsletterSendTime($sendTime);
+        $system->getSettings()->setEazyNewsletterName($name);
+        $system->getSettings()->setEazyNewsletterMail($mail);
+        $system->getSettings()->setEazyNewsletterHtml($html);
+        $system->getSettings()->setEazyNewsletterCustomHtmlHeader($header);
+        $system->getSettings()->setEazyNewsletterCustomHtmlBody($body);
+        $system->getSettings()->setEazyNewsletterCustomHtmlFooter($footer);
+        $system->getSettings()->setEazyNewsletterAutomatic($automatic);
+        $system->getSettings()->setEazyNewsletterActivationPageID($pageID);
+        $system->getSettings()->setEazyNewsletterSendTime($sendTime);
+        $system->getSettings()->setEazyNewsletterDeleteMailPageID($deleteMailPageID);
 
-        if ($settings->updateSettings()) {
-            echo 'Einstellungen erfolgreich gespeichert!';
+        if ($system->getSettings()->updateSettings()) {
+            echo __('Einstellungen erfolgreich gespeichert!', 'eazy_newsletter');
         } else {
-            echo 'Einstellungen konnten nicht gespeichert werden!';
+            echo __('Einstellungen konnten nicht gespeichert werden!', 'eazy_newsletter');
         }
     } catch (Exception $ex) {
-        echo $ex->getMessage();
+        if (EAZYLOGDATA) {
+            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+        }
     }
 }

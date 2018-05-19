@@ -1,7 +1,3 @@
-#eazy_newsletter_settings_form {
-
-}
-
 #eazy-newsletter-addresses-wrapper {
     width: 70%;
 }
@@ -10,8 +6,14 @@
     background: #ccc;
     padding: 0px;
     border-radius: 10px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
     align-items: flex-start;
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
     justify-content: space-evenly;
     width: 100%;
     margin-bottom: 20px!important;
@@ -48,7 +50,27 @@
     width: auto;
     height: auto;
     overflow: hidden;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
+#eazy_newsletter_custom_html_header {
+    height:300px;
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
+#eazy_newsletter_custom_html_body {
+    height:300px;
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#eazy_newsletter_custom_html_footer {
+    height:300px;
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+}

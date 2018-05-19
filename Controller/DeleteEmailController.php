@@ -1,12 +1,14 @@
 <?php
 
-spl_autoload_register(function($class) {
-    include EAZYROOTDIR . 'Classes/' . $class . '.php';
-});
 /* @var $isAjax bool */
 /* @var $singleAddress EmailAddress */
 /* @var $settings Settings */
 /* @var $system System */
+
+spl_autoload_register(function($class) {
+    include EAZYROOTDIR . 'Classes/' . $class . '.php';
+});
+
 
 if ($isAjax) {
     try {
@@ -28,14 +30,16 @@ if ($isAjax) {
         if ($newArray !== $arrayAddresses) {
             $settings->setEazyNewsletterAddresses($newArray);
             if ($settings->updateSettings()) {
-                echo 'E-Mail Addresse erfolgreich gelöscht!';
+                echo __('E-Mail Addresse erfolgreich gelöscht!', 'eazy_newsletter');
             } else {
-                echo 'E-Mail Addresse konnte nicht gelöscht werden!';
+                echo __('E-Mail Addresse konnte nicht gelöscht werden!', 'eazy_newsletter');
             }
         } else {
-            echo 'E-Mail Addresse wurde bereits gelöscht oder existiert nicht!';
+            echo __('E-Mail Addresse wurde bereits gelöscht oder existiert nicht!', 'eazy_newsletter');
         }
     } catch (Exception $ex) {
-        echo $ex->getMessage();
+        if (EAZYLOGDATA) {
+            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+        }
     }
 }

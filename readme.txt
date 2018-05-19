@@ -1,10 +1,15 @@
-# eazy_newsletter
-
-WordPress Plugin for sending Newsletters
-
+=== Plugin Name ===
+Contributors: (this should be a list of wordpress.org userid's)
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5FEYYJQSQK8LW
-
+Tags: newsletter
+Requires at least: 4.9
+Tested up to: 4.9
+Stable tag: 1.0
+Requires PHP: 7.0
+License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Plugin for sending newsletters 
 
 == Description ==
 
@@ -25,6 +30,14 @@ There is also a shortcode available for the frontend form:
 4. Change the name and the e-mail address for the "from" headers. the default settings will get detected as spam.
 
 Define the settings like you want to.
+
+
+== Frequently Asked Questions ==
+
+
+== Screenshots ==
+
+
 
 == Changelog ==
 

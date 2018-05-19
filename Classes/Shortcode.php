@@ -6,13 +6,31 @@ if (!defined('ABSPATH')) {
 class Shortcode {
 
     /**
-     *
+     * Enthält die Daten aus der Datenbank
      * @var Settings
      */
     var $settings;
 
+    /**
+     * System-Objekt
+     * @var System
+     */
+    var $system;
+
+    /**
+     * Konstruktor
+     */
     function __construct() {
-        $this->setSettings(Settings::getInstance());
+        $this->setSystem(new System());
+        $this->setSettings($this->getSystem()->getSettings());
+    }
+
+    /**
+     * 
+     * @param Settings $settings
+     */
+    private function setSettings($settings) {
+        $this->settings = $settings;
     }
 
     /**
@@ -25,32 +43,54 @@ class Shortcode {
 
     /**
      * 
-     * @param Settings $settings
+     * @param System $system
      */
-    private function setSettings($settings) {
-        $this->settings = $settings;
+    private function setSystem($system) {
+        $this->system = $system;
     }
 
+    /**
+     * 
+     * @return System
+     */
+    private function getSystem() {
+        return $this->system;
+    }
+
+    /**
+     * 
+     */
     public function createShortCodes() {
-        if (!shortcode_exists('eazy_newsletter')) {
-            add_shortcode('eazy_newsletter', array($this, 'custom_shortcode'));
+        try {
+            if (!shortcode_exists('eazy_newsletter')) {
+                add_shortcode('eazy_newsletter', array($this, 'custom_shortcode'));
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
-    public static function removeShortcodes() {
-        if (shortcode_exists('eazy_newsletter')) {
-            remove_shortcode('eazy_newsletter');
+    /**
+     * 
+     */
+    public function removeShortcodes() {
+        try {
+            if (shortcode_exists('eazy_newsletter')) {
+                remove_shortcode('eazy_newsletter');
+            }
+        } catch (Exception $ex) {
+            if (EAZYLOGDATA) {
+                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            }
         }
     }
 
-    public function custom_shortcode($atts) {
-
-        $atts = shortcode_atts(
-                array(
-            'style' => '',
-            'verifyemail' => 'true',
-                ), $atts, 'eazy_newsletter'
-        );
+    /**
+     * 
+     */
+    public function custom_shortcode() {
         ?>
         <div id="eazy-newsletter-register-form" class="eazy-newsletter-register-form">
             <input type="hidden" id="eazy-newsletter-time" value="<?php echo current_time('timestamp'); ?>">
