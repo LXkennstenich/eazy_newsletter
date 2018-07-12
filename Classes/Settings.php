@@ -241,6 +241,14 @@ class Settings {
         $this->eazyNewsletterActivationPageID = $pageID;
     }
 
+    public function setEazyNewsletterLogData($logData) {
+        $this->eazyNewsletterLogData = boolval($logData);
+    }
+
+    public function getEazyNewsletterLogData() {
+        return $this->eazyNewsletterLogData;
+    }
+
     /**
      * 
      * @return type
@@ -329,10 +337,6 @@ class Settings {
         return $this->eazyNewsletterDeleteMailPageID;
     }
 
-    public function getEazyNewsletterLogData() {
-        return boolval($this->eazyNewsletterLogData);
-    }
-
     public function hasAddresses() {
         return $hasAddresses = sizeof($this->getEazyNewsletterAddresses()) > 0 ? true : false;
     }
@@ -351,6 +355,7 @@ class Settings {
             $this->setEazyNewsletterSendTime('12:00');
             $this->setEazyNewsletterLastCronAction(NULL);
             $this->setEazyNewsletterDeleteMailPageID(0);
+            $this->setEazyNewsletterLogData(true);
             $this->insertSettings();
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
@@ -378,7 +383,8 @@ class Settings {
                 'eazy_newsletter_activation_page_id' => $this->getEazyNewsletterActivationPageID(),
                 'eazy_newsletter_send_time' => $this->getEazyNewsletterSendTime(),
                 'eazy_newsletter_last_cron_action' => $this->getEazyNewsletterLastCronAction(),
-                'eazy_newsletter_delete_mail_page_id' => $this->getEazyNewsletterDeleteMailPageID()
+                'eazy_newsletter_delete_mail_page_id' => $this->getEazyNewsletterDeleteMailPageID(),
+                'eazy_newsletter_log_data' => $this->getEazyNewsletterLogData()
             );
 
             $wpdb->insert($tableName, $settings);
@@ -441,7 +447,11 @@ class Settings {
                 $i++;
             }
 
-            return $i !== 12 ? false : true;
+            if ($this->updateOption('eazy_newsletter_log_data', $this->getEazyNewsletterLogData())) {
+                $i++;
+            }
+
+            return $i !== 13 ? false : true;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
                 System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
@@ -491,6 +501,9 @@ class Settings {
                     $optionValue = filter_var($value, FILTER_SANITIZE_STRING) ? $value : null;
                     break;
                 case 'eazy_newsletter_delete_mail_page_id':
+                    $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
+                    break;
+                case 'eazy_newsletter_log_data':
                     $optionValue = filter_var($value, FILTER_VALIDATE_INT) ? $value : 0;
                     break;
             }

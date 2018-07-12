@@ -13,13 +13,13 @@ class AjaxRequest {
      * Enthält die Daten aus der Datenbank
      * @var Settings
      */
-    var $settings;
+    protected $settings;
 
     /**
      * System-Objekt
      * @var System
      */
-    var $system;
+    protected $system;
 
     /**
      * Konstruktor

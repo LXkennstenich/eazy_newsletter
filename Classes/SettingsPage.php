@@ -12,13 +12,13 @@ class SettingsPage {
      * Enthält die Daten aus der Datenbank
      * @var Settings
      */
-    var $settings;
+    protected $settings;
 
     /**
      * System-Objekt
      * @var System
      */
-    var $system;
+    protected $system;
 
     /**
      * Konstruktor
@@ -378,26 +378,15 @@ class SettingsPage {
     /**
      * 
      */
-    public function eazy_newsletter_settings_section_callback() {
-
-        echo __('Eazy Newsletter konfigurieren', 'eazy_newsletter');
-        ?> 
-
-        <?php
-    }
-
-    /**
-     * 
-     */
     public function eazy_newsletter_options_page() {
         ?>
         <div id="eazy_newsletter_settings_form" class="eazy_newsletter_settings_form">
             <h2>Eazy Newsletter</h2>
             <input type="hidden" id="eazy-newsletter-action"  value="<?php echo System::getAjaxRequestValue('SaveSettings'); ?>">
-            <?php
-            settings_fields('eazy_newsletter');
-            do_settings_sections('eazy_newsletter');
-            ?>
+        <?php
+        settings_fields('eazy_newsletter');
+        do_settings_sections('eazy_newsletter');
+        ?>
         </div>
         <input type="button" id="save-eazy-newsletter-settings-button" value="<?php echo __('Einstellungen speichern', 'eazy_newsletter'); ?>">
         <div class="ajax-message" id="ajax-message">

@@ -13,7 +13,7 @@ class System {
      * Enthält die Daten aus der Datenbank
      * @var Settings
      */
-    var $settings;
+    protected $settings;
 
     /**
      * Unser Table-Name in der Datenbank
@@ -240,7 +240,8 @@ class System {
             `eazy_newsletter_activation_page_id` int(11) NOT NULL,
             `eazy_newsletter_delete_mail_page_id` int(11) NOT NULL,
             `eazy_newsletter_send_time` text NOT NULL,
-            `eazy_newsletter_last_cron_action` text  NULL
+            `eazy_newsletter_last_cron_action` text  NULL,
+            `eazy_newsletter_log_data` tinyint(1) NOT NULL
             ) $charset_collate;";
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
