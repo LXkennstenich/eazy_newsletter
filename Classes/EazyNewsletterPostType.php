@@ -7,13 +7,13 @@ class EazyNewsletterPostType {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     protected $system;
 
@@ -21,13 +21,13 @@ class EazyNewsletterPostType {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * 
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -35,7 +35,7 @@ class EazyNewsletterPostType {
 
     /**
      * 
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -43,7 +43,7 @@ class EazyNewsletterPostType {
 
     /**
      * 
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -51,7 +51,7 @@ class EazyNewsletterPostType {
 
     /**
      * 
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -67,7 +67,7 @@ class EazyNewsletterPostType {
             add_action('save_post', array($this, 'save'));
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -124,7 +124,7 @@ class EazyNewsletterPostType {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -155,7 +155,7 @@ class EazyNewsletterPostType {
             add_meta_box('eazy_newsletter_date_metabox', 'Veröffentlichungsdatum', array($this, 'metaboxContent'), 'eazy_newsletter');
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -170,7 +170,7 @@ class EazyNewsletterPostType {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -194,7 +194,7 @@ class EazyNewsletterPostType {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }

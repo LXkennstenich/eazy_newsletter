@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
     die();
 }
 
-class Shortcode {
+class EazyNewsletterShortcode {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     protected $system;
 
@@ -21,13 +21,13 @@ class Shortcode {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * 
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -35,7 +35,7 @@ class Shortcode {
 
     /**
      * 
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -43,7 +43,7 @@ class Shortcode {
 
     /**
      * 
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -51,7 +51,7 @@ class Shortcode {
 
     /**
      * 
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -67,7 +67,7 @@ class Shortcode {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -82,7 +82,7 @@ class Shortcode {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -94,7 +94,7 @@ class Shortcode {
         ?>
         <div id="eazy-newsletter-register-form" class="eazy-newsletter-register-form">
             <input type="hidden" id="eazy-newsletter-time" value="<?php echo current_time('timestamp'); ?>">
-            <input type="hidden" id="eazy-newsletter-action"  value="<?php echo System::getAjaxRequestValue('RegisterNewEmail'); ?>">
+            <input type="hidden" id="eazy-newsletter-action"  value="<?php echo EazyNewsletterSystem::getAjaxRequestValue('RegisterNewEmail'); ?>">
             <input id="eazy-newsletter-mail-three" class="eazy-newsletter-mail-two" type="text" autocomplete="off">
             <input id="eazy-newsletter-mail-two" class="eazy-newsletter-mail-two" type="email" autocomplete="off">
             <input id="eazy-newsletter-mail" class="eazy-newsletter-mail" type="email" autocomplete="off" required="true" placeholder="<?php echo __('Ihre E-Mail Adresse...', 'eazy_newsletter'); ?>">
@@ -104,7 +104,7 @@ class Shortcode {
             <p class = "text"></p>
         </div>
         <div class = "loading-div" id = "loading-div">
-            <img src = "<?php echo System::getImageURL('ajax-loader.gif'); ?>" />
+            <img src = "<?php echo EazyNewsletterSystem::getImageURL('ajax-loader.gif'); ?>" />
         </div>
         <?php
     }

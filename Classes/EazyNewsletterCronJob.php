@@ -11,17 +11,17 @@
  *
  * @author alexw
  */
-class EazyCronJob {
+class EazyNewsletterCronJob {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     var $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     var $system;
 
@@ -29,13 +29,13 @@ class EazyCronJob {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * 
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -43,7 +43,7 @@ class EazyCronJob {
 
     /**
      * 
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -51,7 +51,7 @@ class EazyCronJob {
 
     /**
      * 
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -59,7 +59,7 @@ class EazyCronJob {
 
     /**
      * 
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -129,7 +129,7 @@ class EazyCronJob {
             return $schedules;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             return $schedules;

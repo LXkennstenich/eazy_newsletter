@@ -1,9 +1,9 @@
 <?php
 
 /* @var $isAjax bool */
-/* @var $singleAddress EmailAddress */
-/* @var $settings Settings */
-/* @var $system System */
+/* @var $singleAddress EazyNewsletterEmailAddress */
+/* @var $settings EazyNewsletterSettings */
+/* @var $system EazyNewsletterSystem */
 
 spl_autoload_register(function($class) {
     include EAZYROOTDIR . 'Classes/' . $class . '.php';
@@ -46,7 +46,7 @@ if ($isAjax) {
             }
 
             if ($duplicate === false) {
-                $mail = new EmailAddress(false, $email, bin2hex(openssl_random_pseudo_bytes(64)), current_time('timestamp'));
+                $mail = new EazyNewsletterEmailAddress(false, $email, bin2hex(openssl_random_pseudo_bytes(64)), current_time('timestamp'));
                 $arrayAddresses[] = $mail;
                 $system->getSettings()->setEazyNewsletterAddresses($arrayAddresses);
 
@@ -63,7 +63,7 @@ if ($isAjax) {
         }
     } catch (Exception $ex) {
         if (EAZYLOGDATA) {
-            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
         }
     }
 }

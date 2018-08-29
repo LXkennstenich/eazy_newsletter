@@ -1,22 +1,22 @@
 <?php
-/* @var $mailObject EmailAddress */
-/* @var $singleAddress EmailAddress */
+/* @var $mailObject EazyNewsletterEmailAddress */
+/* @var $singleAddress EazyNewsletterEmailAddress */
 
 if (!defined('ABSPATH')) {
     die();
 }
 
-class SettingsPage {
+class EazyNewsletterSettingsPage {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     protected $system;
 
@@ -24,13 +24,13 @@ class SettingsPage {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * Setter für Settings
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -38,7 +38,7 @@ class SettingsPage {
 
     /**
      * Getter für Settings
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -46,7 +46,7 @@ class SettingsPage {
 
     /**
      * Setter für System
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -54,7 +54,7 @@ class SettingsPage {
 
     /**
      * Getter für System
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -69,7 +69,7 @@ class SettingsPage {
             add_action('admin_init', array($this, 'eazy_newsletter_settings_init'));
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -82,7 +82,7 @@ class SettingsPage {
             add_options_page('eazy_newsletter', 'eazy_newsletter', 'manage_options', 'eazy_newsletter', array($this, 'eazy_newsletter_options_page'));
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -146,7 +146,7 @@ class SettingsPage {
             );
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -234,7 +234,7 @@ class SettingsPage {
             wp_dropdown_pages($args);
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
         ?>
@@ -259,7 +259,7 @@ class SettingsPage {
             wp_dropdown_pages($args);
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
         ?>
@@ -324,7 +324,7 @@ class SettingsPage {
         ?>
 
         <?php if (sizeof($addresses) > 0 && $addresses !== false) { ?>
-            <input type="hidden" id="eazy-newsletter-action-delete" value="<?php echo System::getAjaxRequestValue('DeleteEmail'); ?>">
+            <input type="hidden" id="eazy-newsletter-action-delete" value="<?php echo EazyNewsletterSystem::getAjaxRequestValue('DeleteEmail'); ?>">
             <div id="eazy-newsletter-addresses-wrapper" class="wrapper">
                 <table>
                     <tr>
@@ -336,7 +336,7 @@ class SettingsPage {
                         <th class="mail-field"></th>
                     </tr>
                     <?php
-                    /* @var $singleAddress EmailAddress */
+                    /* @var $singleAddress EazyNewsletterEmailAddress */
                     foreach ($addresses as $singleAddress) {
 
                         $active = '';
@@ -382,7 +382,7 @@ class SettingsPage {
         ?>
         <div id="eazy_newsletter_settings_form" class="eazy_newsletter_settings_form">
             <h2>Eazy Newsletter</h2>
-            <input type="hidden" id="eazy-newsletter-action"  value="<?php echo System::getAjaxRequestValue('SaveSettings'); ?>">
+            <input type="hidden" id="eazy-newsletter-action"  value="<?php echo EazyNewsletterSystem::getAjaxRequestValue('SaveSettings'); ?>">
         <?php
         settings_fields('eazy_newsletter');
         do_settings_sections('eazy_newsletter');
@@ -393,7 +393,7 @@ class SettingsPage {
             <p class="text"></p>
         </div>
         <div class="loading-div" id="loading-div">
-            <img src="<?php echo System::getImageURL('ajax-loader.gif'); ?>"/>
+            <img src="<?php echo EazyNewsletterSystem::getImageURL('ajax-loader.gif'); ?>"/>
         </div>
         <?php
     }

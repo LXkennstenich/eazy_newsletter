@@ -7,17 +7,17 @@ if (!defined('ABSPATH')) {
 /**
  * Registriert den Ajax Callback
  */
-class AjaxRequest {
+class EazyNewsletterAjaxRequest {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     protected $system;
 
@@ -25,13 +25,13 @@ class AjaxRequest {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * 
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -39,7 +39,7 @@ class AjaxRequest {
 
     /**
      * 
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -47,7 +47,7 @@ class AjaxRequest {
 
     /**
      * 
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -55,7 +55,7 @@ class AjaxRequest {
 
     /**
      * 
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -75,7 +75,7 @@ class AjaxRequest {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -94,7 +94,7 @@ class AjaxRequest {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -108,17 +108,17 @@ class AjaxRequest {
                 $actionDecoded = base64_decode($_POST['eazy_newsletter_action']);
                 $action = filter_var($actionDecoded, FILTER_SANITIZE_STRING) ? $actionDecoded : null;
 
-                if (System::ajaxControllerExists($action)) {
+                if (EazyNewsletterSystem::ajaxControllerExists($action)) {
                     $isAjax = true;
-                    $system = new System();
-                    include System::getAjaxControllerPath($action);
+                    $system = new EazyNewsletterSystem();
+                    include EazyNewsletterSystem::getAjaxControllerPath($action);
                 }
             }
 
             wp_die();
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             wp_die();

@@ -4,15 +4,15 @@
   Template Post Type: page
  */
 
-/* @var $singleAddress EmailAddress */
-/* @var $settings Settings */
+/* @var $singleAddress EazyNewsletterEmailAddress */
+/* @var $settings EazyNewsletterSettings */
 
 if (!defined('ABSPATH')) {
     die();
 }
 
 try {
-    $settings = Settings::getUpdatetInstance();
+    $settings = EazyNewsletterSettings::getUpdatetInstance();
     $activation = false;
     $overTime = false;
     $validation = false;
@@ -66,7 +66,7 @@ try {
     }
 } catch (Exception $ex) {
     if (EAZYLOGDATA) {
-        System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+        EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
     }
 }
 ?>

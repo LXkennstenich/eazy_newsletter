@@ -59,15 +59,15 @@ require_once EAZYROOTDIR . 'Classes/EazyCronJob.php';
 /**
  * Create every Object we need
  */
-$settings = Settings::getInstance();
-$shortcode = new Shortcode();
-$ajaxRequest = new AjaxRequest();
+$settings = EazyNewsletterSettings::getInstance();
+$shortcode = new EazyNewsletterShortcode();
+$ajaxRequest = new EazyNewsletterAjaxRequest();
 $eazyNewsletterScripts = new EazyNewsletterScripts();
 $eazyNewsletterStyles = new EazyNewsletterStyles();
 $eazyNewsletterPostType = new EazyNewsletterPostType();
 $eazyNewsletterTemplates = new EazyNewsletterTemplates();
-$settingsPage = new SettingsPage();
-$eazyCronJob = new EazyCronJob();
+$settingsPage = new EazyNewsletterSettingsPage();
+$eazyCronJob = new EazyNewsletterCronJob();
 
 $eazyCronJob->createCronInterval();
 $eazyCronJob->createCronJob();
@@ -84,14 +84,14 @@ define('EAZYLOGDATA', $eazyLogData);
  */
 function eazy_newsletter_activate() {
     try {
-        $system = new System();
+        $system = new EazyNewsletterSystem();
 
         if (!$system->tableExists()) {
             $system->createNewsletterTable();
         }
     } catch (Exception $ex) {
         if (EAZYLOGDATA) {
-            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
         }
     }
 }
@@ -106,13 +106,13 @@ register_activation_hook(__FILE__, 'eazy_newsletter_activate');
  */
 function eazy_newsletter_deactivate() {
     try {
-        $shortcode = new Shortcode();
-        $ajaxRequest = new AjaxRequest();
+        $shortcode = new EazyNewsletterShortcode();
+        $ajaxRequest = new EazyNewsletterAjaxRequest();
         $eazyNewsletterScripts = new EazyNewsletterScripts();
         $eazyNewsletterStyles = new EazyNewsletterStyles();
         $eazyNewsletterPostType = new EazyNewsletterPostType();
         $eazyNewsletterTemplates = new EazyNewsletterTemplates();
-        $eazyCronJob = new EazyCronJob();
+        $eazyCronJob = new EazyNewsletterCronJob();
 
         $shortcode->removeShortcodes();
         $ajaxRequest->removeRequests();
@@ -124,7 +124,7 @@ function eazy_newsletter_deactivate() {
         $eazyCronJob->removeCronJob();
     } catch (Exception $ex) {
         if (EAZYLOGDATA) {
-            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
         }
     }
 }
@@ -174,7 +174,7 @@ function my_plugin_load_plugin_textdomain() {
         load_plugin_textdomain('eazy_newsletter', FALSE, basename(dirname(__FILE__)) . '/lang/');
     } catch (Exception $ex) {
         if (EAZYLOGDATA) {
-            System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+            EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
         }
     }
 }

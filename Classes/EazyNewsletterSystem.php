@@ -7,11 +7,11 @@ if (!defined('ABSPATH')) {
 /**
  * Gibt Systempfade zurück und steuert den debug-log
  */
-class System {
+class EazyNewsletterSystem {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
@@ -25,12 +25,12 @@ class System {
      * Konstruktor
      */
     function __construct() {
-        $this->setSettings(Settings::getUpdatetInstance());
+        $this->setSettings(EazyNewsletterSettings::getUpdatetInstance());
     }
 
     /**
      * Getter für Settings
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     public function getSettings() {
         return $this->settings;
@@ -38,7 +38,7 @@ class System {
 
     /**
      * Setter für Settings
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -82,7 +82,7 @@ class System {
             return true;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -103,7 +103,7 @@ class System {
             return null;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -125,7 +125,7 @@ class System {
             return null;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -147,7 +147,7 @@ class System {
             return null;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -169,7 +169,7 @@ class System {
             return null;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -190,7 +190,7 @@ class System {
             return false;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -200,7 +200,7 @@ class System {
             return base64_encode($action);
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -215,7 +215,7 @@ class System {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -250,7 +250,7 @@ class System {
             $this->getSettings()->createSettings();
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -268,7 +268,7 @@ class System {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -286,7 +286,7 @@ class System {
             return false;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -338,32 +338,15 @@ class System {
 
                     $addresses = $this->getSettings()->getEazyNewsletterAddresses();
 
-                    $title = $post->post_title;
-                    $content = $post->post_content;
-
                     $postMetaUpdated = false;
 
-                    /* @var $singleAddress EmailAddress */
+                    /* @var $singleAddress EazyNewsletterEmailAddress */
                     foreach ($addresses as $singleAddress) {
 
                         $address = $singleAddress->getAddress();
 
                         if ($singleAddress->isActive() && $this->mailExists($address)) {
-
-                            $messageContent = $singleAddress->buildHtmlWrapper($content);
-
-                            $headers = $singleAddress->buildHeader();
-
-                            if (wp_mail($address, $title, $messageContent, $headers)) {
-
-                                if ($postMetaUpdated !== false) {
-                                    continue;
-                                }
-
-                                if (update_post_meta($postID, 'eazy_newsletter_is_send', 1)) {
-                                    $postMetaUpdated = true;
-                                }
-                            }
+                            continue;
                         } else {
 
                             $timestampRegistered = $singleAddress->getTimestamp();
@@ -375,13 +358,29 @@ class System {
                             }
                         }
                     }
+
+                    $title = $post->post_title;
+                    $content = $post->post_content;
+
+                    $messageContent = $singleAddress->buildHtmlWrapper($content);
+
+                    $headers = $singleAddress->buildHeader();
+
+                    if (wp_mail($address, $title, $messageContent, $headers)) {
+
+                        if ($postMetaUpdated !== false) {
+                            if (update_post_meta($postID, 'eazy_newsletter_is_send', 1)) {
+                                $postMetaUpdated = true;
+                            }
+                        }
+                    }
                 }
             }
 
             wp_reset_postdata();
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             wp_reset_postdata();
@@ -430,7 +429,7 @@ class System {
 
             $postMetaUpdated = false;
 
-            /* @var $singleAddress EmailAddress */
+            /* @var $singleAddress EazyNewsletterEmailAddress */
             foreach ($addresses as $singleAddress) {
 
                 $address = $singleAddress->getAddress();
@@ -457,7 +456,7 @@ class System {
             wp_reset_postdata();
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::Log(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             wp_reset_postdata();

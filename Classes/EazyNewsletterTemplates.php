@@ -8,13 +8,13 @@ class EazyNewsletterTemplates {
 
     /**
      * Enthält die Daten aus der Datenbank
-     * @var Settings
+     * @var EazyNewsletterSettings
      */
     protected $settings;
 
     /**
      * System-Objekt
-     * @var System
+     * @var EazyNewsletterSystem
      */
     protected $system;
 
@@ -22,13 +22,13 @@ class EazyNewsletterTemplates {
      * Konstruktor
      */
     function __construct() {
-        $this->setSystem(new System());
+        $this->setSystem(new EazyNewsletterSystem());
         $this->setSettings($this->getSystem()->getSettings());
     }
 
     /**
      * 
-     * @param Settings $settings
+     * @param EazyNewsletterSettings $settings
      */
     private function setSettings($settings) {
         $this->settings = $settings;
@@ -36,7 +36,7 @@ class EazyNewsletterTemplates {
 
     /**
      * 
-     * @return Settings
+     * @return EazyNewsletterSettings
      */
     private function getSettings() {
         return $this->settings;
@@ -44,7 +44,7 @@ class EazyNewsletterTemplates {
 
     /**
      * 
-     * @param System $system
+     * @param EazyNewsletterSystem $system
      */
     private function setSystem($system) {
         $this->system = $system;
@@ -52,7 +52,7 @@ class EazyNewsletterTemplates {
 
     /**
      * 
-     * @return System
+     * @return EazyNewsletterSystem
      */
     private function getSystem() {
         return $this->system;
@@ -72,7 +72,7 @@ class EazyNewsletterTemplates {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -91,7 +91,7 @@ class EazyNewsletterTemplates {
             }
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
         }
     }
@@ -108,7 +108,7 @@ class EazyNewsletterTemplates {
             $title = $post->post_title;
 
             if (is_page($title)) {
-                $new_template = include System::getViewPath('eazy_newsletter_activation_page');
+                $new_template = include EazyNewsletterSystem::getViewPath('eazy_newsletter_activation_page');
                 if ('' != $new_template) {
                     return $new_template;
                 }
@@ -117,7 +117,7 @@ class EazyNewsletterTemplates {
             return $template;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             return $template;
@@ -136,7 +136,7 @@ class EazyNewsletterTemplates {
             $title = $post->post_title;
 
             if (is_page($title)) {
-                $new_template = include System::getViewPath('eazy_newsletter_delete_mail_page');
+                $new_template = include EazyNewsletterSystem::getViewPath('eazy_newsletter_delete_mail_page');
                 if ('' != $new_template) {
                     return $new_template;
                 }
@@ -145,7 +145,7 @@ class EazyNewsletterTemplates {
             return $template;
         } catch (Exception $ex) {
             if (EAZYLOGDATA) {
-                System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+                EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
             }
 
             return $template;

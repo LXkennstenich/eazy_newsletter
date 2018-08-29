@@ -16,7 +16,7 @@ try {
     $wpdb->query("DROP TABLE IF EXISTS $tableName");
 } catch (Exception $ex) {
     if (EAZYDEBUGLOG) {
-        System::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
+        EazyNewsletterSystem::debugLog(__('Ausnahme: ' . $ex->getMessage() . ' Datei: ' . __FILE__ . ' Zeile: ' . __LINE__ . ' Funktion: ' . __FUNCTION__, 'eazy_newsletter'));
     }
 }
 
