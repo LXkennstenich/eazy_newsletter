@@ -10,16 +10,20 @@
     overflow: hidden;
     display: -webkit-box;
     display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-flow: column;
+    -webkit-flex-flow: column;
     flex-flow: column;
     -webkit-box-align: center;
     -ms-flex-align: center;
+    -webkit-align-items: center;
     align-items: center;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
     width: auto;
     margin: 0 auto;
@@ -29,6 +33,7 @@ input[type="email"] {
     -webkit-appearance: none!important;
     -moz-appearance: none!important;
     appearance: none!important;
+    -webkit-border-radius: 0!important;
     border-radius: 0!important;
     border: 0;
 }
@@ -40,9 +45,25 @@ input[type="email"] {
 }
 
 .eazy-newsletter-submit-button {
-    width: 60%;
+    width: 200px;
     height: auto;
     margin: auto;
+    margin-bottom: auto;
     margin-bottom: 20px;
     cursor: pointer;
+    background: #34a853;
+    border: none;
+    outline: 0;
+    color: #fff;
+    font-size: 16px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+
+#eazy-newsletter-mail-two,
+#eazy-newsletter-mail-three {
+    display: none;
 }

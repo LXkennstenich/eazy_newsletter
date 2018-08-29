@@ -5,15 +5,19 @@
 #eazy-newsletter-addresses-wrapper tr{
     background: #ccc;
     padding: 0px;
+    -webkit-border-radius: 10px;
     border-radius: 10px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
+    display: -webkit-inline-flex;
     display: inline-flex;
     -webkit-box-align: start;
     -ms-flex-align: start;
+    -webkit-align-items: flex-start;
     align-items: flex-start;
     -webkit-box-pack: space-evenly;
     -ms-flex-pack: space-evenly;
+    -webkit-justify-content: space-evenly;
     justify-content: space-evenly;
     width: 100%;
     margin-bottom: 20px!important;
@@ -43,6 +47,7 @@
     background: #960B00;
     color: #fff!important;
     padding: 8px;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
     cursor: pointer;
     display: block;
@@ -58,6 +63,7 @@
     height:300px;
     max-width: 600px;
     width: 100%;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -65,6 +71,7 @@
     height:300px;
     max-width: 600px;
     width: 100%;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -72,5 +79,6 @@
     height:300px;
     max-width: 600px;
     width: 100%;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }

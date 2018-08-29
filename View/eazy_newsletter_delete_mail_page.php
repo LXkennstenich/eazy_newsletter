@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
     die();
 }
 
+get_header();
+
 try {
     $settings = EazyNewsletterSettings::getUpdatetInstance();
     $action = null;
@@ -26,7 +28,7 @@ try {
         $address = filter_var($_GET['u'], FILTER_SANITIZE_STRING);
     }
 
-    get_header();
+
 
     if ($action === 'delete') {
 

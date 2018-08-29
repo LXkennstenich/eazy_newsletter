@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
     die();
 }
 
+get_header();
+
 try {
     $settings = EazyNewsletterSettings::getUpdatetInstance();
     $activation = false;
@@ -30,7 +32,7 @@ try {
     $addressesArray = $settings->getEazyNewsletterAddresses();
     $newArray = array();
 
-    get_header();
+
 
 
     if ($action === 'activate') {

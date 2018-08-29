@@ -77,9 +77,6 @@ class EazyNewsletterScripts {
      */
     public function removeScripts() {
         try {
-            if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
-                wp_dequeue_script('eazy-newsletter-jquery-js');
-            }
 
             if (wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
                 wp_dequeue_script('eazy-newsletter-custom-js');
@@ -96,9 +93,8 @@ class EazyNewsletterScripts {
      */
     public function eazy_newsletter_scripts() {
         try {
-            if (!wp_script_is('eazy-newsletter-jquery-js', 'enqueued')) {
-                wp_enqueue_script('eazy-newsletter-jquery-js', EazyNewsletterSystem::eazyNewsletterScriptUrl('jquery.min'));
-            }
+
+            wp_enqueue_script('jquery');
 
             if (!wp_script_is('eazy-newsletter-custom-js', 'enqueued')) {
                 wp_enqueue_script('eazy-newsletter-custom-js', EazyNewsletterSystem::eazyNewsletterScriptUrl('eazy-newsletter-custom-js.min'));

@@ -44,17 +44,17 @@ if (!defined('EAZYROOTURL')) {
 /**
  * Alle Klassen einbinden.
  */
-require_once EAZYROOTDIR . 'Classes/Settings.php';
-require_once EAZYROOTDIR . 'Classes/System.php';
-require_once EAZYROOTDIR . 'Classes/AjaxRequest.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterSettings.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterSystem.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterAjaxRequest.php';
 require_once EAZYROOTDIR . 'Classes/EazyNewsletterPostType.php';
 require_once EAZYROOTDIR . 'Classes/EazyNewsletterScripts.php';
 require_once EAZYROOTDIR . 'Classes/EazyNewsletterStyles.php';
 require_once EAZYROOTDIR . 'Classes/EazyNewsletterTemplates.php';
-require_once EAZYROOTDIR . 'Classes/EmailAddress.php';
-require_once EAZYROOTDIR . 'Classes/SettingsPage.php';
-require_once EAZYROOTDIR . 'Classes/Shortcode.php';
-require_once EAZYROOTDIR . 'Classes/EazyCronJob.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterEmailAddress.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterSettingsPage.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterShortcode.php';
+require_once EAZYROOTDIR . 'Classes/EazyNewsletterCronJob.php';
 
 /**
  * Create every Object we need
