@@ -1,11 +1,16 @@
 <?php
-/* @var $mailObject EazyNewsletterEmailAddress */
-/* @var $singleAddress EazyNewsletterEmailAddress */
-
 if (!defined('ABSPATH')) {
     die();
 }
 
+/**
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
+ */
 class EazyNewsletterSettingsPage {
 
     /**
@@ -383,10 +388,10 @@ class EazyNewsletterSettingsPage {
         <div id="eazy_newsletter_settings_form" class="eazy_newsletter_settings_form">
             <h2>Eazy Newsletter</h2>
             <input type="hidden" id="eazy-newsletter-action"  value="<?php echo EazyNewsletterSystem::getAjaxRequestValue('SaveSettings'); ?>">
-        <?php
-        settings_fields('eazy_newsletter');
-        do_settings_sections('eazy_newsletter');
-        ?>
+            <?php
+            settings_fields('eazy_newsletter');
+            do_settings_sections('eazy_newsletter');
+            ?>
         </div>
         <input type="button" id="save-eazy-newsletter-settings-button" value="<?php echo __('Einstellungen speichern', 'eazy_newsletter'); ?>">
         <div class="ajax-message" id="ajax-message">

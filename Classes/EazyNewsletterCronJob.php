@@ -1,15 +1,16 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined('ABSPATH')) {
+    die();
+}
 
 /**
- * Description of EazyCronJob
+ * Eazy Newsletter
  *
- * @author alexw
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
  */
 class EazyNewsletterCronJob {
 

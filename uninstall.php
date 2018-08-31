@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
+ */
+/**
  * Kein Deinstallationsvorgang ? die
  */
 if (!defined('WP_UNINSTALL_PLUGIN')) {

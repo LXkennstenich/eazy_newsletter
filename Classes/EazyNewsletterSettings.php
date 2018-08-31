@@ -5,9 +5,12 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Description of Settings
- * 
- * @author alexw
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
  */
 class EazyNewsletterSettings {
 
@@ -120,11 +123,11 @@ class EazyNewsletterSettings {
      * @return type
      */
     public static function getInstance() {
-        if (self::$instance === null) {
-            self::$instance = new EazyNewsletterSettings();
+        if (static::$instance === null) {
+            static::$instance = new EazyNewsletterSettings();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -132,9 +135,9 @@ class EazyNewsletterSettings {
      * @return type
      */
     public static function getUpdatetInstance() {
-        self::$instance = new EazyNewsletterSettings();
+        static::$instance = new EazyNewsletterSettings();
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**

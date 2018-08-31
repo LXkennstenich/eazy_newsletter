@@ -5,7 +5,12 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Gibt Systempfade zurück und steuert den debug-log
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
  */
 class EazyNewsletterSystem {
 
@@ -292,7 +297,7 @@ class EazyNewsletterSystem {
     }
 
     public function isNewsletterSend($postID) {
-        return $isSend = get_post_meta($postID, 'eazy_newsletter_is_send', true) != 0 ? true : 0;
+        return $isSend = get_post_meta($postID, 'eazy_newsletter_is_send', true) == 1 ? true : 0;
     }
 
     public function timeToSendNewsletter($postID) {
@@ -338,8 +343,6 @@ class EazyNewsletterSystem {
 
                     $addresses = $this->getSettings()->getEazyNewsletterAddresses();
 
-                    $postMetaUpdated = false;
-
                     /* @var $singleAddress EazyNewsletterEmailAddress */
                     foreach ($addresses as $singleAddress) {
 
@@ -367,12 +370,7 @@ class EazyNewsletterSystem {
                     $headers = $singleAddress->buildHeader();
 
                     if (wp_mail($address, $title, $messageContent, $headers)) {
-
-                        if ($postMetaUpdated !== false) {
-                            if (update_post_meta($postID, 'eazy_newsletter_is_send', 1)) {
-                                $postMetaUpdated = true;
-                            }
-                        }
+                        update_post_meta($postID, 'eazy_newsletter_is_send', 1);
                     }
                 }
             }

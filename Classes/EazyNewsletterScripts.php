@@ -4,6 +4,14 @@ if (!defined('ABSPATH')) {
     die();
 }
 
+/**
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
+ */
 class EazyNewsletterScripts {
 
     /**

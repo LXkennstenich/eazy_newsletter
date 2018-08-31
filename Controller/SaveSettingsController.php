@@ -1,12 +1,20 @@
 <?php
 
+/**
+ * Eazy Newsletter
+ *
+ * @package     eazy_newsletter
+ * @author      Alexander Weese
+ * @copyright   2018 Alexander Weese Webdesign
+ * @license     GPL-3.0+
+ */
 /* @var $isAjax bool */
 /* @var $singleAddress EazyNewsletterEmailAddress */
 /* @var $settings EazyNewsletterSettings */
 /* @var $system EazyNewsletterSystem */
 
 spl_autoload_register(function($class) {
-    include EAZYROOTDIR . 'Classes/' . $class . '.php';
+    include_once EAZYROOTDIR . 'Classes/' . $class . '.php';
 });
 
 
